@@ -1,0 +1,73 @@
+:root {
+  --text: #3e3e3c;
+  --text-h: #080707;
+  --bg: #f3f3f3;
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+
+  font: 16px/1.45 var(--sans);
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100svh;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+h1 {
+  font-family: var(--sans);
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+p {
+  margin: 0;
+}
+
+code {
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.9em;
+  padding: 0.1em 0.35em;
+  background: #eaeaea;
+  border-radius: 4px;
+}
+
+.app {
+  padding: 48px 20px 64px;
+  max-width: 1040px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.app__title {
+  margin: 0 0 8px;
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.app__lede {
+  margin: 0 0 16px;
+  font-size: 0.95rem;
+  color: #5c5c5c;
+  max-width: 52rem;
+}
+
+.app__lede--spaced {
+  margin-top: 40px;
+}
+
+.app__panel {
+  padding: 28px 24px 32px;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+}

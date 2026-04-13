@@ -1,0 +1,211 @@
+.sales-path {
+  --sales-path-chev: 13px;
+  --sales-path-h: 38px;
+  --sales-path-gap: 3px;
+  --sales-path-done: #4bca81;
+  --sales-path-active: #1b4486;
+  --sales-path-upcoming: #f3f2f2;
+  --sales-path-ink: #3e3e3c;
+  --sales-path-ink-muted: #444;
+  --sales-path-on-active: #fff;
+  display: flex;
+  gap: var(--sales-path-gap);
+  width: 100%;
+  max-width: 960px;
+  margin-inline: auto;
+  align-items: stretch;
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+}
+
+.sales-path__step {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  height: var(--sales-path-h);
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: inherit;
+  text-align: center;
+  outline: none;
+}
+
+/* Pill end caps (clip-path stays straight; parent rounds the outer silhouette). */
+.sales-path__step--first,
+.sales-path__step--last {
+  overflow: hidden;
+}
+
+.sales-path__step--first {
+  border-radius: calc(var(--sales-path-h) / 2) 0 0 calc(var(--sales-path-h) / 2);
+}
+
+.sales-path__step--last {
+  border-radius: 0 calc(var(--sales-path-h) / 2) calc(var(--sales-path-h) / 2) 0;
+}
+
+.sales-path__step--disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.sales-path__shape {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--sales-path-upcoming);
+  pointer-events: none;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* First: straight left (pill via parent radius), right chevron. Mid/last: left V matches prior tip. Last: flat right (pill via parent). Gaps show parent background between cells. */
+
+.sales-path__step--first .sales-path__shape {
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--sales-path-chev)) 0,
+    100% 50%,
+    calc(100% - var(--sales-path-chev)) 100%,
+    0 100%
+  );
+}
+
+.sales-path__step--mid .sales-path__shape {
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--sales-path-chev)) 0,
+    100% 50%,
+    calc(100% - var(--sales-path-chev)) 100%,
+    0 100%,
+    var(--sales-path-chev) 50%
+  );
+}
+
+.sales-path__step--last .sales-path__shape {
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 100%,
+    0 100%,
+    var(--sales-path-chev) 50%
+  );
+}
+
+.sales-path__step--completed .sales-path__shape {
+  background: var(--sales-path-done);
+}
+
+.sales-path__step--active .sales-path__shape {
+  background: var(--sales-path-active);
+}
+
+.sales-path__body {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding-inline: 10px calc(var(--sales-path-chev) + 10px);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.sales-path__step--first .sales-path__body {
+  padding-inline-start: 14px;
+}
+
+.sales-path__step--last .sales-path__body {
+  padding-inline-end: 14px;
+}
+
+.sales-path__label {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sales-path__step--active .sales-path__label {
+  color: var(--sales-path-on-active);
+}
+
+.sales-path__step--upcoming .sales-path__label {
+  color: var(--sales-path-ink);
+}
+
+.sales-path__swap {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 1.25rem;
+  overflow: hidden;
+}
+
+.sales-path__check,
+.sales-path__label--hover {
+  grid-area: 1 / 1;
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease;
+}
+
+.sales-path__check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sales-path-ink-muted);
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.sales-path__check-icon {
+  display: block;
+}
+
+.sales-path__label--hover {
+  color: var(--sales-path-ink-muted);
+  opacity: 0;
+  transform: translateY(6px);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sales-path__step--completed:is(:hover, :focus-visible) .sales-path__check {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+
+.sales-path__step--completed:is(:hover, :focus-visible) .sales-path__label--hover {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sales-path__check,
+  .sales-path__label--hover {
+    transition: opacity 0.12s ease;
+  }
+
+  .sales-path__step--completed:is(:hover, :focus-visible) .sales-path__check,
+  .sales-path__step--completed:is(:hover, :focus-visible) .sales-path__label--hover {
+    transform: none;
+  }
+}
+
+.sales-path__step:focus-visible {
+  outline: 2px solid #1589ee;
+  outline-offset: 2px;
+  z-index: 50 !important;
+}
+
+.sales-path__step--disabled:focus-visible {
+  outline-color: #999;
+}
